@@ -39,4 +39,8 @@ describe("Game", function () {
         game.move("a1");
         assert.equal(1, game.turnCount);
     });
+    it("should declare the game over after all positions have been taken", function () {
+        game.turnCount = 9;
+        assert.equal(true, game.isOver());
+    });
 });
