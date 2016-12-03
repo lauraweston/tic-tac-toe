@@ -11,9 +11,11 @@ Game.prototype.tokenAt = function (position) {
 };
 
 Game.prototype.move = function (position) {
-    const token = this.turnCount % 2 === 0 ? "O" : "X";
-    this.grid[position] = token;
-    this.turnCount++;
+    const player = this.turnCount % 2 === 0 ? "O" : "X";
+    if (!this.grid[position]) {
+        this.grid[position] = player;
+        this.turnCount++;
+    }
 };
 
 module.exports = Game;
