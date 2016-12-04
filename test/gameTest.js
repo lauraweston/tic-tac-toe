@@ -34,13 +34,23 @@ describe("Game", function () {
         game.move("a1");
         assert.equal("O", game.tokenAt("a1"));
     });
-    it("should not change to next player if current player makes an invalid move", function() {
+    it("should not change to next player if current player makes an invalid move", function () {
         game.move("a1");
         game.move("a1");
         assert.equal(1, game.turnCount);
     });
     it("should declare the game over after all positions have been taken", function () {
         game.turnCount = 9;
+        assert.equal(true, game.isOver());
+    });
+    it("should declare a winner if a player takes all positions in a row, column or diagonal", function () {
+        game.grid = { a1: "O", a2: "O", a3: "O" };
+        assert.equal(true, game.isWon());
+        assert.equal(true, game.isOver());
+    });
+    it("should declare a winner if X takes all positions in a row", function () {
+        game.grid = { b1: "X", b2: "X", b3: "X" };
+        assert.equal(true, game.isWon());
         assert.equal(true, game.isOver());
     });
 });
