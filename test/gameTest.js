@@ -43,14 +43,35 @@ describe("Game", function () {
         game.turnCount = 9;
         assert.equal(true, game.isOver());
     });
-    it("should declare a winner if a player takes all positions in a row, column or diagonal", function () {
-        game.grid = { a1: "O", a2: "O", a3: "O" };
-        assert.equal(true, game.isWon());
-        assert.equal(true, game.isOver());
-    });
-    it("should declare a winner if X takes all positions in a row", function () {
-        game.grid = { b1: "X", b2: "X", b3: "X" };
-        assert.equal(true, game.isWon());
-        assert.equal(true, game.isOver());
+
+    describe("Winning moves", function () {
+        const winningGames = [
+            { moves: ["a1", "b1", "a2", "b2", "a3"], expectedWinner: "O" },
+            { moves: ["b1", "c2", "b2", "a3", "b3"], expectedWinner: "O" },
+            { moves: ["c1", "a1", "c2", "b2", "c3"], expectedWinner: "O" },
+            { moves: ["a1", "b2", "b1", "c3", "c1"], expectedWinner: "O" },
+            { moves: ["a2", "a1", "b2", "b1", "c2"], expectedWinner: "O" },
+            { moves: ["a3", "a1", "b3", "b1", "c3"], expectedWinner: "O" },
+            { moves: ["a1", "a2", "b2", "a3", "c3"], expectedWinner: "O" },
+            { moves: ["c1", "a1", "b2", "b1", "a3"], expectedWinner: "O" },
+            { moves: ["c1", "a1", "b1", "a2", "b2", "a3"], expectedWinner: "X" },
+            { moves: ["c1", "b1", "c2", "b2", "a3", "b3"], expectedWinner: "X" },
+            { moves: ["a1", "c1", "a3", "c2", "b2", "c3"], expectedWinner: "X" },
+            { moves: ["c2", "a1", "b2", "b1", "c3", "c1"], expectedWinner: "X" },
+            { moves: ["c3", "a2", "a1", "b2", "b1", "c2"], expectedWinner: "X" },
+            { moves: ["c2", "a3", "a1", "b3", "b1", "c3"], expectedWinner: "X" },
+            { moves: ["c1", "a1", "a2", "b2", "a3", "c3"], expectedWinner: "X" },
+            { moves: ["a2", "c1", "a1", "b2", "b1", "a3"], expectedWinner: "X" }
+        ];
+        winningGames.forEach(function (winningGame) {
+            it("should declare a winner if a player takes all positions in a row, column or diagonal", function () {
+                winningGame.moves.forEach(function (position) {
+                    game.move(position);
+                });
+                assert.equal(game.isWon(), true);
+                assert.equal(game.isOver(), true);
+                assert.equal(game.declareWinner(), winningGame.expectedWinner);
+            });
+        });
     });
 });

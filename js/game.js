@@ -34,11 +34,16 @@ Game.prototype.isOver = function () {
     return this.isWon() || this.turnCount > 8;
 };
 
+Game.prototype.declareWinner = function () {
+    return this.winner;
+};
+
 Game.prototype.isWon = function () {
     for (let set of this.winningSets) {
         const moves = this.getPositionTokens(set);
         const m = moves.join("");
         if (m === "XXX" || m === "OOO") {
+            this.winner = m[0];
             return true;
         }
     }
